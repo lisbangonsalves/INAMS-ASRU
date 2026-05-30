@@ -189,6 +189,30 @@ header[data-testid="stHeader"] {{ display: none; }}
     border-color: {CYAN} !important;
     background: #EFF6FF !important;
 }}
+/* Override the dark "Browse files" button inside the dropzone */
+[data-testid="stFileUploaderDropzone"] button,
+[data-testid="stFileUploaderDropzone"] button:hover,
+[data-testid="baseButton-secondary"] {{
+    background: {SURFACE} !important;
+    color: {CYAN} !important;
+    border: 1.5px solid {CYAN} !important;
+    border-radius: 7px !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    box-shadow: none !important;
+    padding: 0.45rem 1.1rem !important;
+    width: auto !important;
+}}
+[data-testid="stFileUploaderDropzone"] button:hover {{
+    background: #EFF6FF !important;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.15) !important;
+}}
+/* Drag-and-drop instruction text */
+[data-testid="stFileUploaderDropzone"] p,
+[data-testid="stFileUploaderDropzone"] span,
+[data-testid="stFileUploaderDropzone"] small {{
+    color: {MUTED} !important;
+}}
 
 /* ── Progress bar ── */
 .stProgress > div > div {{ background: #E2E8F0 !important; border-radius: 4px !important; }}
