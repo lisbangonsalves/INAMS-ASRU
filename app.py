@@ -16,7 +16,7 @@ load_dotenv()
 
 # ── Page config (must be first Streamlit call) ──────────────────────────────
 st.set_page_config(
-    page_title="INAMS-ASRU Neuro-Surgical Co-Pilot",
+    page_title="INAMS Neuro-Surgical Co-Pilot",
     page_icon="🧠",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -360,7 +360,7 @@ def analyse_image(image_bytes: bytes, mode: str) -> dict:
         )
         response = get_client().messages.create(
             model="claude-opus-4-6",
-            max_tokens=2500,
+            max_tokens=4096,
             system=ANATOMIST_SYSTEM_PROMPT,
             messages=[
                 {
@@ -381,8 +381,10 @@ def analyse_image(image_bytes: bytes, mode: str) -> dict:
             parts = raw.split("```")
             raw = parts[1].lstrip("json").strip() if len(parts) > 1 else raw
         return json.loads(raw)
-    except json.JSONDecodeError as exc:
-        return {"error": f"Failed to parse AI response as JSON: {exc}"}
+    except json.JSONDecodeError:
+        # Response was truncated — surface a clean message instead of raw exception
+        return {"error": "The AI response was cut off before the JSON completed. "
+                         "Please try again — large images sometimes need a second attempt."}
     except anthropic.APIError as exc:
         return {"error": f"Anthropic API error: {exc}"}
     except Exception as exc:
